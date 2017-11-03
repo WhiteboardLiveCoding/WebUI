@@ -7,7 +7,39 @@
       <h2 class="subtitle">
         Making dem dreams come true since 2017
       </h2>
-      <a class="button is-large is-danger" href="/code">Execute code</a>
+
+      <div class="field">
+        <div class="file is-info has-name">
+          <label class="file-label">
+            <form method=post enctype=multipart/form-data>
+            <input class="file-input" type=file name=file id="file">
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="fa fa-upload"></i>
+              </span>
+              <span class="file-label">
+                Upload file
+              </span>
+            </span>
+            <label for="file">
+            <span class="file-name" id="filename">
+              No file selected
+            </span>
+            </label>
+            <input type=submit value=Upload>
+          </form>
+          </label>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  var file = document.getElementById("file");
+  file.onchange = function(){
+    if(file.files.length > 0) {
+      document.getElementById('filename').innerHTML = 					file.files[0].name;
+    }
+  };
+</script>

@@ -3,16 +3,12 @@
     <div class="editor">
     </div>
   </div>
-  <div class="column">
-    <div class="display-image">
-      <img src="https://bananaboyblog.files.wordpress.com/2013/03/scn_0001.jpg" alt="">
-    </div>
-  </div>
 </div>
 
 <script>
   let $container = document.querySelector(".editor");
   let cm = CodeMirror($container, {
+    value: {{fixed|tojson}},
     lineNumbers: true,
     theme: "monokai"
   });
