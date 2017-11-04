@@ -1,12 +1,13 @@
 import os
 import requests
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -18,12 +19,12 @@ def index():
             # Save file to file system
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            filesFound = {'file':open(app.config['UPLOAD_FOLDER'] + filename, 'rb')}
+            filesFound = {'file': open(app.config['UPLOAD_FOLDER'] + filename, 'rb')}
 
-            r = requests.post('http://0.0.0.0:5000/api/upload_image', files=filesFound)
+            r = requests.post('http://whiteboardlivecoding-ocr.azurewebsites.net/api/upload_image', files=filesFound)
             r = r.json()
             # Remove file immediately after we submit it to the other endpoint
-            os.remove(app.config['UPLOAD_FOLDER'] + filename)
+            # os.remove(app.config['UPLOAD_FOLDER'] + filename)
             # Yeah, request parsing is weird
             unfixed = r[1]
             fixed = r[3]
@@ -34,6 +35,12 @@ def index():
     else:
         return render_template('base.html', template='index.html')
 
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+if __name__ == "__main__":
+    # Only for debugging while developing
+    app.run(host='0.0.0.0', debug=True, port=80)

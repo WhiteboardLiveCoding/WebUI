@@ -2,3 +2,6 @@
 *.map
 *.pyc
 *.swp
+.idea/
+__pycache__/
+uploads/
