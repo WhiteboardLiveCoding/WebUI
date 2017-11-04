@@ -41,7 +41,7 @@ def index():
                                        result=result,
                                        error=error)
 
-            # Remove file after everything else is completed
+            # Remove file after everything else is completeds
             os.remove(app.config['UPLOAD_FOLDER'] + filename)
 
             return rendered
