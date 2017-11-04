@@ -15,6 +15,8 @@ def index():
     if request.method == 'POST':
         create_directory()
         file = request.files['file']
+        if file.filename == 'blob':
+            file.filename = 'blob.png'
         if 'file' not in request.files or file.filename == '':
             return render_template('base.html', template='index.html')
         elif file and allowed_file(file.filename):
