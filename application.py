@@ -9,6 +9,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.config['IMAGE_PROCESSOR'] = 'http://0.0.0.0:5000/api/upload_image'
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -20,10 +21,13 @@ def index():
             # Save file to file system
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            filesFound = {'file':open(app.config['UPLOAD_FOLDER'] + filename, 'rb')}
+            open_file = open(app.config['UPLOAD_FOLDER'] + filename, 'rb')
 
-            r = requests.post(app.config['IMAGE_PROCESSOR'], files=filesFound)
+            # Build request and close the file
+            r = requests.post(app.config['IMAGE_PROCESSOR'],
+                              files={'file':open_file.read()})
             r = r.json()
+            open_file.close()
 
             # Yeah, request parsing is weird
             unfixed = r[1]
@@ -37,16 +41,18 @@ def index():
                                        result=result,
                                        error=error)
 
-            # Remove file immediately after we submit it to the other endpoint
+            # Remove file after everything else is completed
             os.remove(app.config['UPLOAD_FOLDER'] + filename)
 
             return rendered
     else:
         return render_template('base.html', template='index.html')
 
+
 def create_directory():
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
+
 
 def allowed_file(filename):
     return '.' in filename and \
