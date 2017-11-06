@@ -26,3 +26,8 @@ def index():
             return render_template('base.html', template='code.html', fixed=fixed, result=result, error=error)
     else:
         return render_template('base.html', template='index.html')
+
+
+if __name__ == "__main__":
+    # Only for debugging while developing
+    app.run(host='0.0.0.0', debug=True, port=80)
