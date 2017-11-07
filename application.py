@@ -14,6 +14,11 @@ def index():
             return render_template('base.html', template='index.html')
         elif file:
             r = requests.post(app.config['IMAGE_PROCESSOR'], files={'file': file.read()})
+
+            if r.status_code != requests.codes.ok:
+                # Handle error in a better way than just rendering the index
+                return render_template('base.html', template='index.html')
+
             r = r.json()
 
             fixed = r.get('fixed')
