@@ -1,44 +1,36 @@
-import os
 import requests
 from flask import Flask, render_template, request
-from werkzeug.utils import secure_filename
-
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads/'
+app.config['IMAGE_PROCESSOR'] = 'http://whiteboardlivecoding-ocr.azurewebsites.net/api/upload_image'
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         file = request.files['file']
+
         if 'file' not in request.files or file.filename == '':
             return render_template('base.html', template='index.html')
-        elif file and allowed_file(file.filename):
-            # Save file to file system
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            filesFound = {'file': open(app.config['UPLOAD_FOLDER'] + filename, 'rb')}
+        elif file:
+            r = requests.post(app.config['IMAGE_PROCESSOR'], files={'file': file.read()})
 
-            r = requests.post('http://whiteboardlivecoding-ocr.azurewebsites.net/api/upload_image', files=filesFound)
+            if r.status_code != requests.codes.ok:
+                # Handle error in a better way than just rendering the index
+                return render_template('base.html', template='index.html')
+
             r = r.json()
-            # Remove file immediately after we submit it to the other endpoint
-            # os.remove(app.config['UPLOAD_FOLDER'] + filename)
-            # Yeah, request parsing is weird
-            unfixed = r[1]
-            fixed = r[3]
-            result = r[5]
-            error = r[7]
 
-            return render_template('base.html', template='code.html', fixed=fixed)
+            fixed = r.get('fixed')
+            result = r.get('result')
+            error = r.get('error')
+
+            # Use this when resubmitting code to run
+            key = r.get('key')
+
+            return render_template('base.html', template='code.html', fixed=fixed, result=result, error=error)
     else:
         return render_template('base.html', template='index.html')
-
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 if __name__ == "__main__":

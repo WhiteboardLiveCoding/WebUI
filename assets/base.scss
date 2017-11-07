@@ -2,8 +2,14 @@
   padding-top: 10px;
 }
 
-.editor, .CodeMirror {
-  height: 100% !important;
+.file-cta, .file-label {
+  display: inline-flex;
+}
+
+.file-label {
+  .button {
+    margin-left: 20px;
+  }
 }
 
 .display-image {
