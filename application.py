@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 app.config['IMAGE_PROCESSOR'] = 'http://whiteboardlivecoding-ocr.azurewebsites.net/api/upload_image'
@@ -32,7 +32,6 @@ def index():
             return render_template('base.html', template='code.html', fixed=fixed, result=result, error=error)
     else:
         return render_template('base.html', template='index.html')
-
 
 if __name__ == "__main__":
     # Only for debugging while developing

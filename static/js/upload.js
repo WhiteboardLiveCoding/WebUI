@@ -25,7 +25,7 @@ function dataURItoBlob(dataURI) {
     return new Blob([ia], {type:mimeString});
 }
 
-$("#uploado").bind("click", function(){
+$("#upload-webcam").bind("click", function(){
   var canvas=document.querySelector('canvas');
   var dataURL = canvas.toDataURL('image/png', 0.5);
   var blob = dataURItoBlob(dataURL);
@@ -36,6 +36,9 @@ $("#uploado").bind("click", function(){
     data: fd,
     processData: false,
     contentType: false,
-    type: 'POST'
+    type: 'POST',
+    success: function(response) {
+      document.write(response);
+    }
   });
 });

@@ -1,4 +1,4 @@
-<section class="hero is-warning is-fullheight">
+<section class="hero is-warning">
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
@@ -7,44 +7,61 @@
       <h2 class="subtitle">
         Making dem dreams come true since 2017
       </h2>
-
-<div class="select">
-  <label for="videoSource">Video source: </label><select id="videoSource"></select>
-</div>
-
-<video muted autoplay></video>
-
-<img src="">
-<canvas width="640" height="480" style="display:none;" id="canvas"></canvas>
-<input class="button" id="uploado" type="submit" value="Submit input">
-
-
-      <div class="field">
-        <div class="file is-info has-name">
-          <label class="file-label">
-            <form method=post enctype=multipart/form-data>
-            <input class="file-input" type=file name=file id="file">
-            <span class="file-cta">
-              <span class="file-icon">
-                <i class="fa fa-upload"></i>
-              </span>
-              <span class="file-label">
-                Select file
-              </span>
-            </span>
-            <label for="file" class="file-label">
-            <span class="file-name" id="filename">
-              No file selected
-            </span>
-            </label>
-            <input class="button" type=submit value=Upload>
-          </form>
-          </label>
-        </div>
-      </div>
     </div>
   </div>
 </section>
+
+<div class="container">
+
+  <div class="columns">
+    <div class="content">
+      <h1>Take a webcam</h1>
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="column">
+      <div class="select-webcam">
+        <label for="videoSource">Video source: </label><select id="videoSource"></select>
+      </div>
+      <video muted autoplay></video>
+    </div>
+    <div class="column">
+      <img src="http://i316.photobucket.com/albums/mm347/baby-bits-n-bobs/Imagehere.jpg" id="img-webcam">
+      <input class="button" id="upload-webcam" type="submit" value="Submit input">
+    </div>
+    <canvas width="640" height="480" style="display:none;" id="canvas"></canvas>
+  </div>
+
+  <hr>
+
+  <div class="columns">
+    <div class="field">
+      <div class="file is-info has-name">
+        <label class="file-label">
+          <form method=post enctype=multipart/form-data>
+          <input class="file-input" type=file name=file id="file">
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fa fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Select file
+            </span>
+          </span>
+          <label for="file" class="file-label">
+          <span class="file-name" id="filename">
+            No file selected
+          </span>
+          </label>
+          <input class="button" type=submit value=Upload>
+        </form>
+        </label>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 <script src="../static/js/upload.js" type="text/javascript"></script>
 <script src="../static/js/video.js" type="text/javascript"></script>

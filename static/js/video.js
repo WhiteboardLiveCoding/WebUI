@@ -10,7 +10,7 @@ function snapshot() {
     ctx.drawImage(video, 0, 0, 640, 480);
     // "image/webp" works in Chrome.
     // Other browsers will fall back to image/png.
-    document.querySelector('img').src = canvas.toDataURL('image/png');
+    $('#img-webcam').attr('src', canvas.toDataURL('image/png'))
   }
 }
 
