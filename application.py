@@ -1,61 +1,39 @@
-import os
 import requests
-from flask import Flask, render_template, request, redirect, url_for
-from werkzeug.utils import secure_filename
-
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads/'
-app.config['IMAGE_PROCESSOR'] = 'http://0.0.0.0:5000/api/upload_image'
+app.config['IMAGE_PROCESSOR'] = 'http://whiteboardlivecoding-ocr.azurewebsites.net/api/upload_image'
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        create_directory()
         file = request.files['file']
         if file.filename == 'blob':
             file.filename = 'blob.png'
         if 'file' not in request.files or file.filename == '':
             return render_template('base.html', template='index.html')
-        elif file and allowed_file(file.filename):
-            # Save file to file system
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            open_file = open(app.config['UPLOAD_FOLDER'] + filename, 'rb')
+        elif file:
+            r = requests.post(app.config['IMAGE_PROCESSOR'], files={'file': file.read()})
 
-            # Build request and close the file
-            r = requests.post(app.config['IMAGE_PROCESSOR'],
-                              files={'file':open_file.read()})
+            if r.status_code != requests.codes.ok:
+                # Handle error in a better way than just rendering the index
+                return render_template('base.html', template='index.html')
+
             r = r.json()
-            open_file.close()
 
-            # Yeah, request parsing is weird
-            unfixed = r[1]
-            fixed = r[3]
-            result = r[5]
-            error = r[7]
+            fixed = r.get('fixed')
+            result = r.get('result')
+            error = r.get('error')
 
-            rendered = render_template('base.html',
-                                       template='code.html',
-                                       fixed=fixed,
-                                       result=result,
-                                       error=error)
+            # Use this when resubmitting code to run
+            key = r.get('key')
 
-            # Remove file after everything else is completeds
-            os.remove(app.config['UPLOAD_FOLDER'] + filename)
-
-            return rendered
+            return render_template('base.html', template='code.html', fixed=fixed, result=result, error=error)
     else:
         return render_template('base.html', template='index.html')
 
 
-def create_directory():
-    if not os.path.exists(app.config['UPLOAD_FOLDER']):
-        os.makedirs(app.config['UPLOAD_FOLDER'])
-
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+if __name__ == "__main__":
+    # Only for debugging while developing
+    app.run(host='0.0.0.0', debug=True, port=80)
