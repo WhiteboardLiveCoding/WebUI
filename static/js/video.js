@@ -14,7 +14,10 @@ function snapshot() {
   }
 }
 
-video.addEventListener('click', snapshot, false);
+$('#capture-webcam').click(snapshot);
+$('#upload-webcam').click(function() {
+  $('#upload-webcam').prop('disabled', true);
+});
 
 // Not showing vendor prefixes or code that works cross-browser.
 navigator.getUserMedia({video: true}, function(stream) {

@@ -15,25 +15,30 @@
 
   <div class="columns">
     <div class="content">
-      <h1>Take a webcam</h1>
+      <h1>Take a picture with your webcamera</h1>
+      <label for="videoSource">Source: </label><select id="videoSource"></select>
     </div>
   </div>
 
   <div class="columns">
-    <div class="column">
-      <div class="select-webcam">
-        <label for="videoSource">Video source: </label><select id="videoSource"></select>
-      </div>
+    <div class="column text-center">
       <video muted autoplay></video>
+      <input class="button is-danger" id="capture-webcam" type="submit" value="1. Capture image">
     </div>
-    <div class="column">
+    <div class="column text-center">
       <img src="http://i316.photobucket.com/albums/mm347/baby-bits-n-bobs/Imagehere.jpg" id="img-webcam">
-      <input class="button" id="upload-webcam" type="submit" value="Submit input">
+      <input class="button is-danger" id="upload-webcam" type="submit" value="2. Upload">
     </div>
     <canvas width="640" height="480" style="display:none;" id="canvas"></canvas>
   </div>
 
   <hr>
+
+  <div class="columns">
+    <div class="content">
+      <h1>Or upload your picture</h1>
+    </div>
+  </div>
 
   <div class="columns">
     <div class="field">
