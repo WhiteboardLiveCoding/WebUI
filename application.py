@@ -22,8 +22,6 @@ def index():
 
             r = r.json()
 
-            print(r)
-
             fixed = r.get('fixed')
             result = r.get('result')
             error = r.get('error')
@@ -31,7 +29,7 @@ def index():
             # Use this when resubmitting code to run
             key = r.get('key')
 
-            return render_template('base.html', template='code.html', fixed=fixed, result=result, error=error)
+            return render_template('base.html', template='code.html', fixed=fixed, result=result, error=error, key=key)
     else:
         return render_template('base.html', template='index.html')
 
