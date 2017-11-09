@@ -14,14 +14,15 @@ def index():
         if 'file' not in request.files or file.filename == '':
             return render_template('base.html', template='index.html')
         elif file:
-            fileContent = file.read()
-            r = requests.post(app.config['IMAGE_PROCESSOR'], files={'file': fileContent})
+            r = requests.post(app.config['IMAGE_PROCESSOR'], files={'file': file.read()})
 
             if r.status_code != requests.codes.ok:
                 # Handle error in a better way than just rendering the index
                 return render_template('base.html', template='index.html')
 
             r = r.json()
+
+            print(r)
 
             fixed = r.get('fixed')
             result = r.get('result')
@@ -30,7 +31,7 @@ def index():
             # Use this when resubmitting code to run
             key = r.get('key')
 
-            return render_template('base.html', template='code.html', fixed=fixed, result=result, error=error, imgsrc=unicode(fileContent, 'utf-8', errors='replace'))
+            return render_template('base.html', template='code.html', fixed=fixed, result=result, error=error)
     else:
         return render_template('base.html', template='index.html')
 
