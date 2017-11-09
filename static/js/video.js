@@ -8,8 +8,6 @@ var localMediaStream = null;
 function snapshot() {
   if (localMediaStream) {
     ctx.drawImage(video, 0, 0, 640, 480);
-    // "image/webp" works in Chrome.
-    // Other browsers will fall back to image/png.
     $('#img-webcam').attr('src', canvas.toDataURL('image/png'))
   }
 }
@@ -19,7 +17,6 @@ $('#upload-webcam').click(function() {
   $('#upload-webcam').prop('disabled', true);
 });
 
-// Not showing vendor prefixes or code that works cross-browser.
 navigator.getUserMedia({video: true}, function(stream) {
   video.src = window.URL.createObjectURL(stream);
   localMediaStream = stream;
