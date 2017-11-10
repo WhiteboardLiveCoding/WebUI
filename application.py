@@ -26,6 +26,7 @@ def index():
             fixed = r.get('fixed')
             result = r.get('result')
             error = r.get('error')
+            ar = r.get('ar')
 
             # Use this when resubmitting code to run
             key = r.get('key')
@@ -35,7 +36,8 @@ def index():
                                    fixed=fixed,
                                    result=result,
                                    error=error,
-                                   key=key)
+                                   key=key,
+                                   ar=ar)
     else:
         return render_template('base.html', template='index.html')
 

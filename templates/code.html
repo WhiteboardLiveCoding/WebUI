@@ -4,7 +4,9 @@
     </div>
   </div>
   <div class="column">
-    <img src="https://alpstore.blob.core.windows.net/pictures/{{key}}" id="fixed-img">
+    <canvas id="canvas" width="{{ ar['dimensions']['width'] }}" height="{{ ar['dimensions']['height'] }}">
+      Sorry, your browser doesn't support the &lt;canvas&gt; element.
+    </canvas>
   </div>
 </div>
 
@@ -14,20 +16,50 @@
   <div class="column">
     <div class="field">
       <div class="control">
-        <textarea class="textarea is-success" id="result-area" type="text" readonly>{{result}}</textarea>
+        <textarea class="textarea is-success" id="result-area" type="text" readonly>{{ result }}</textarea>
       </div>
     </div>
   </div>
   <div class="column">
     <div class="field">
       <div class="control">
-        <textarea class="textarea is-danger" id="error-area" type="text" readonly>{{error}}</textarea>
+        <textarea class="textarea is-danger" id="error-area" type="text" readonly>{{ error }}</textarea>
       </div>
     </div>
   </div>
 </div>
 
 <script type="text/javascript">
+  var canvas = document.getElementById("canvas");
+  var context = canvas.getContext("2d");
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  drawbackground(canvas, context, drawRest);
+
+  function drawbackground(canvas, context, onload) {
+    var imagePaper = new Image();
+    imagePaper.onload = function () {
+      context.drawImage(imagePaper, 0, 0, canvas.width, canvas.height);
+      onload(canvas, context);
+    };
+    imagePaper.src = "https://alpstore.blob.core.windows.net/pictures/{{key}}";
+  }
+
+  function drawRest(canvas, context) {
+    drawLine(canvas, context, {{ ar['line'] | tojson }});
+  }
+
+  function drawLine(canvas, context, line) {
+    if (line) {
+      context.beginPath();
+      context.moveTo(line['x'], line['y'] + line['height']);
+      context.lineTo(line['x'] + line['width'], line['y'] + line['height']);
+
+      context.lineWidth = 5;
+      context.strokeStyle = "red";
+      context.stroke();
+    }
+  }
+
   let $container = document.querySelector(".editor");
   let cm = CodeMirror($container, {
     value: {{fixed|tojson}},
@@ -35,14 +67,14 @@
     theme: "monokai"
   });
 
-  $("#upload-code").bind("click", function(){
+  $("#upload-code").bind("click", function () {
     $.ajax({
       url: '/resubmit',
-      data: JSON.stringify( { "code": cm.getValue(), "key": "{{key}}" } ),
+      data: JSON.stringify({"code": cm.getValue(), "key": "{{key}}"}),
       processData: false,
       contentType: 'application/json',
       type: 'POST',
-      success: function(response) {
+      success: function (response) {
         var json = $.parseJSON(response);
         $('#result-area').val(json.result);
         $('#error-area').val(json.error);
