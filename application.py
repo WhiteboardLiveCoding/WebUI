@@ -45,7 +45,7 @@ def index():
 @app.route('/resubmit', methods=['POST'])
 def resubmit():
     if request.method == 'POST':
-        r = requests.post('http://127.0.0.1:5000/api/resubmit_code',
+        r = requests.post('http://whiteboardlivecoding-ocr.azurewebsites.net/api/resubmit_code',
                           json={'code': request.json.get('code'), 'key': request.json.get('key')})
         r = r.json()
         return json.dumps({'result': r.get('result'), 'error': r.get('error')})
