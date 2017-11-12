@@ -29,6 +29,7 @@
   </div>
 </div>
 
+<script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
 <script type="text/javascript">
   var canvas = document.getElementById("canvas");
   var context = canvas.getContext("2d");
@@ -67,7 +68,18 @@
     theme: "monokai"
   });
 
-  $("#upload-code").bind("click", function () {
+  if (annyang) {
+    var commands = {
+      'whiteboard run': {'regexp': /.*whiteboard run.*/, 'callback': resubmit()}
+    };
+
+    annyang.addCommands(commands);
+
+    annyang.debug();
+    annyang.start({ autoRestart: true, continuous: false });
+  }
+
+  function resubmit() {
     $.ajax({
       url: '/resubmit',
       data: JSON.stringify({"code": cm.getValue(), "key": "{{key}}"}),
@@ -80,5 +92,7 @@
         $('#error-area').val(json.error);
       }
     });
-  });
+  }
+
+  $("#upload-code").bind("click", resubmit);
 </script>
