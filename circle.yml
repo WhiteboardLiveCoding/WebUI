@@ -10,7 +10,7 @@ test:
 
 deployment:
   hub:
-    branch: require-ssl
+    branch: master
     commands:
       - docker info
       - docker build --rm=false -t mz4315/whiteboardlivecoding .
