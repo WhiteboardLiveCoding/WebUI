@@ -1,8 +1,11 @@
+import os
 import requests
-from flask import Flask, render_template, request, redirect, url_for, json
+from flask import Flask, render_template, request, json
+from flask_sslify import SSLify
 
 app = Flask(__name__)
 app.config['IMAGE_PROCESSOR'] = 'http://whiteboardlivecoding-ocr.azurewebsites.net/api/upload_image'
+sslify = SSLify(app)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -51,4 +54,5 @@ def resubmit():
 
 if __name__ == "__main__":
     # Only for debugging while developing
-    app.run(host='0.0.0.0', debug=True, port=80)
+    debug = not os.environ.get('DEPLOYED')
+    app.run(host='0.0.0.0', debug=debug, port=80)
