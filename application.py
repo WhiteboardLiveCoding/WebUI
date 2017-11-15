@@ -6,6 +6,7 @@ from flask_sslify import SSLify
 app = Flask(__name__)
 app.config['IMAGE_PROCESSOR'] = 'http://whiteboardlivecoding-ocr.azurewebsites.net/api/upload_image'
 app.config['RESUBMIT'] = 'http://whiteboardlivecoding-ocr.azurewebsites.net/api/resubmit_code'
+app.debug = not os.environ.get('DEPLOYED')
 sslify = SSLify(app)
 
 
@@ -52,5 +53,4 @@ def resubmit():
 
 if __name__ == "__main__":
     # Only for debugging while developing
-    debug = not os.environ.get('DEPLOYED')
-    app.run(host='0.0.0.0', debug=debug, port=80)
+    app.run(host='0.0.0.0', port=80)
