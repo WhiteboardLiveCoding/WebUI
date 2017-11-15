@@ -4,9 +4,10 @@ from flask import Flask, render_template, request, json
 from flask_sslify import SSLify
 
 app = Flask(__name__)
-app.config['IMAGE_PROCESSOR'] = 'http://whiteboardlivecoding-ocr.azurewebsites.net/api/upload_image'
-app.config['RESUBMIT'] = 'http://whiteboardlivecoding-ocr.azurewebsites.net/api/resubmit_code'
 app.debug = not os.environ.get('DEPLOYED')
+app.config['BACKEND_URL'] = 'http://whiteboardlivecoding-ocr.azurewebsites.net'
+app.config['IMAGE_PROCESSOR'] = app.config['BACKEND_URL'] + '/api/upload_image'
+app.config['CODE_RESUBMISSION'] = app.config['BACKEND_URL'] + '/api/resubmit_code'
 sslify = SSLify(app)
 
 
@@ -39,14 +40,15 @@ def index():
 @app.route('/resubmit', methods=['POST'])
 def resubmit():
     if request.method == 'POST':
-        r = requests.post(app.config['RESUBMIT'],
+        r = requests.post(app.config['CODE_RESUBMISSION'],
                           json={'code': request.json.get('code'), 'key': request.json.get('key')})
+
         if r.status_code != requests.codes.ok or r.status_code == 404:
             # TODO: Handle error in a better way than just rendering the index
             return render_template('base.html')
 
-        res = r.json()
-        return json.dumps({'result': res.get('result'), 'error': res.get('error')})
+        r = r.json()
+        return json.dumps({'result': r.get('result'), 'error': r.get('error'), 'ar': r.get('ar'), 'key': r.get('key')})
 
 
 if __name__ == "__main__":

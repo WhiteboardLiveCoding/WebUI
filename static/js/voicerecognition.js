@@ -6,6 +6,9 @@ if (annyang) {
     }},
     'whiteboard upload': {'regexp': /.*whiteboard upload.*/, 'callback': function () {
       document.getElementById('upload-webcam').click();
+    }},
+    'whiteboard run': {'regexp': /.*whiteboard run.*/, 'callback': function () {
+      document.getElementById('upload-code').click();
     }}
   };
 
