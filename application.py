@@ -13,29 +13,30 @@ sslify = SSLify(app)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        file = request.files.get('file')
-        if not file or not file.filename:
-            # TODO: show there's an error on the page
-            return render_template('base.html', template='index.html')
-        else:
+        file = request.files['file']
+        if 'file' not in request.files or file.filename == '':
+            return render_template('base.html')
+        elif file:
             r = requests.post(app.config['IMAGE_PROCESSOR'],
                               files={'file': file.read()})
+            if r.status_code != requests.codes.ok:
+                # Handle error in a better way than just rendering the index
+                return render_template('base.html')
 
-            if r.status_code != requests.codes.ok or r.status_code == 404:
-                # TODO: Handle error in a better way than just rendering the index
-                return render_template('base.html', template='index.html')
+            r = r.json()
 
-            res = r.json()
+            fixed = r.get('fixed',"")
+            result = r.get('result',"")
+            error = r.get('error',"")
+            ar = r.get('ar',"")
 
-            return render_template('base.html',
-                                   template='code.html',
-                                   fixed=res.get('fixed'),
-                                   result=res.get('result'),
-                                   error=res.get('error'),
-                                   key=res.get('key'),  # Use this when resubmitting code to run
-                                   ar=res.get('ar'))
+            # Use this when resubmitting code to run
+            key = r.get('key',"")
+
+            return json.dumps({'result': r.get('result',""), 'error': r.get('error',""),
+                               'fixed':fixed, 'key':key, 'ar':ar})
     else:
-        return render_template('base.html', template='index.html')
+        return render_template('base.html')
 
 
 @app.route('/resubmit', methods=['POST'])
@@ -44,8 +45,7 @@ def resubmit():
         r = requests.post(app.config['RESUBMIT'],
                           json={'code': request.json.get('code'), 'key': request.json.get('key')})
         if r.status_code != requests.codes.ok or r.status_code == 404:
-            # TODO: Handle error in a better way than just rendering the index
-            return render_template('base.html', template='index.html')
+            return render_template('base.html')
 
         res = r.json()
         return json.dumps({'result': res.get('result'), 'error': res.get('error')})
