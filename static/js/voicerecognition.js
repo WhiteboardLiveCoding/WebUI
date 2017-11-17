@@ -1,3 +1,4 @@
+// For uploading
 if (annyang) {
   var commands = {
     'whiteboard capture': {'regexp': /.*whiteboard capture.*/, 'callback': function () {
