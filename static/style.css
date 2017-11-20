@@ -20,4 +20,8 @@
 .top-spaces {
   margin-top: 20px; }
 
+canvas {
+  width: 100%;
+  height: auto;  }
+
 /*# sourceMappingURL=style.css.map */
