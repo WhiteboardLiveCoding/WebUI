@@ -11,7 +11,8 @@
     <link href="../static/codemirror.css" rel="stylesheet">
 
     <!-- SCRIPTS HERE -->
-    <script src="../static/js/codemirror.js"></script>
+    <script src="../static/js/codemirror/codemirror.js"></script>
+    <script src="../static/js/codemirror/python.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@1.5.4/src/loadingoverlay.min.js"></script>
@@ -97,7 +98,7 @@
           </div>
         </div>
         <div class="column">
-          <canvas id="submitted_canvas" width="640" height="480">
+          <canvas id="submitted_canvas">
             Sorry, your browser doesn't support the &lt;canvas&gt; element.
           </canvas>
         </div>
@@ -131,7 +132,8 @@
       var cm = CodeMirror($container, {
         value: "",
         lineNumbers: true,
-        theme: "monokai"
+        theme: "monokai",
+        mode: "python"
       });
 
       cm.setSize('100%', 480);

@@ -20,8 +20,8 @@
 .top-spaces {
   margin-top: 20px; }
 
-canvas {
-  width: 100%;
-  height: auto;  }
+#submitted_canvas {
+  max-width: 640px;
+  max-height: 480px; }
 
 /*# sourceMappingURL=style.css.map */

@@ -73,8 +73,10 @@ $("#upload-webcam").bind("click", function () {
     type: 'POST',
     success: function (response) {
       render_code(response);
+      $.LoadingOverlay("hide");
     }
   });
+  $.LoadingOverlay("show");
 });
 
 function render_code(response) {
@@ -85,6 +87,11 @@ function render_code(response) {
   $('#result-area').val(json.result);
   $('#error-area').val(json.error);
   cm.setValue(json.fixed);
+
+  setTimeout(function() {
+    cm.refresh();
+  },100);
+
   localStorage.setItem("key", json.key);
 
   // Show codemirror and other elements
