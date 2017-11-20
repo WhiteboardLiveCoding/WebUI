@@ -91,19 +91,21 @@
 
     <div id="resubmit_window">
 
-      <div class="columns">
-        <div class="column">
+      <div class="columns top-spaces">
+        <div class="column is-half">
           <div class="editor">
           </div>
         </div>
         <div class="column">
-          <canvas id="submitted_canvas" width="600" height="300">
+          <canvas id="submitted_canvas" width="640" height="480">
             Sorry, your browser doesn't support the &lt;canvas&gt; element.
           </canvas>
         </div>
       </div>
 
-      <input class="button is-danger" id="upload-code" type="submit" value="Reupload code">
+      <div class="columns">
+        <input class="button is-danger" id="upload-code" type="submit" value="Reupload code">
+      </div>
 
       <div class="columns">
         <div class="column">
@@ -131,6 +133,8 @@
         lineNumbers: true,
         theme: "monokai"
       });
+
+      cm.setSize('100%', 480);
 
       // Does this when the page loads
       $(function() {
