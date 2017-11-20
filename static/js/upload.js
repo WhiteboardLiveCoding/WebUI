@@ -16,23 +16,7 @@ $("#file-form").submit(function (event) {
     contentType: false,
     type: 'POST',
     success: function (response) {
-      $('#submission-window').hide();
-
-      // Fill correct elements with response
-      var json = $.parseJSON(response);
-      $('#result-area').val(json.result);
-      $('#error-area').val(json.error);
-      cm.setValue(json.fixed);
-      localStorage.setItem("key", json.key);
-
-      // Show codemirror and other elements
-      $('#resubmit_window').show();
-
-      // Drawing stuff
-      var canvas = document.getElementById("submitted_canvas");
-      var context = canvas.getContext("2d");
-      drawbackground(canvas, context, drawRest, json);
-      $.LoadingOverlay("hide");
+      render_code(response);
     }
   });
   $.LoadingOverlay("show");
@@ -75,6 +59,7 @@ $("#upload-webcam").bind("click", function () {
       render_code(response);
     }
   });
+  $.LoadingOverlay("show");
 });
 
 function render_code(response) {
@@ -85,6 +70,11 @@ function render_code(response) {
   $('#result-area').val(json.result);
   $('#error-area').val(json.error);
   cm.setValue(json.fixed);
+
+  setTimeout(function() {
+    cm.refresh();
+  },100);
+
   localStorage.setItem("key", json.key);
 
   // Show codemirror and other elements
@@ -94,4 +84,5 @@ function render_code(response) {
   var canvas = document.getElementById("submitted_canvas");
   var context = canvas.getContext("2d");
   drawbackground(canvas, context, drawRest, json);
+  $.LoadingOverlay("hide");
 }

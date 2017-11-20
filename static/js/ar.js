@@ -2,6 +2,8 @@ function drawbackground(canvas, context, onload, json) {
   var imagePaper = new Image();
   imagePaper.onload = function () {
     context.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.width  = json.ar.dimensions.width;
+    canvas.height = json.ar.dimensions.height;
     context.drawImage(imagePaper, 0, 0, canvas.width, canvas.height);
     onload(canvas, context, json);
   };
