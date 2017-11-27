@@ -1,3 +1,39 @@
+.card-footer {
+  border-top: none;
+
+  i {
+    padding-right: 10px;
+  }
+
+  a {
+    color: rgb(79, 79, 79);
+    border-bottom: 2px solid rgb(79, 79, 79);
+  }
+
+  a:hover {
+    border-bottom: 2px solid #396afc;
+  }
+
+  .active {
+    color: #396afc;
+    color: -webkit-linear-gradient(to right, #2948ff, #396afc);
+    color: linear-gradient(to right, #2948ff, #396afc);
+    border-bottom: 2px solid #396afc;
+  }
+}
+
+// For header
+.navbar-item h4 {
+  font-weight: 600;
+  color: black;
+}
+
+/*
+ * -------
+ * OLD CSS
+ * -------
+ */
+
 .subtitle {
   padding-top: 10px;
 }

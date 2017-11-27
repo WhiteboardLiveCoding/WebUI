@@ -13,6 +13,7 @@ function snapshot() {
 }
 
 $('#capture-webcam').click(snapshot);
+
 $('#upload-webcam').click(function() {
   $('#upload-webcam').prop('disabled', true);
 });
@@ -25,6 +26,7 @@ navigator.getUserMedia({video: true}, function(stream) {
 
 var videoElement = document.querySelector('video');
 var videoSelect = document.querySelector('select#videoSource');
+$(videoSelect).wrap("<div class='select'></div>");
 
 navigator.mediaDevices.enumerateDevices()
   .then(gotDevices).then(getStream).catch(handleError);

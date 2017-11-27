@@ -1,3 +1,27 @@
+.card-footer {
+  border-top: none; }
+  .card-footer i {
+    padding-right: 10px; }
+  .card-footer a {
+    color: #4f4f4f;
+    border-bottom: 2px solid #4f4f4f; }
+  .card-footer a:hover {
+    border-bottom: 2px solid #396afc; }
+  .card-footer .active {
+    color: #396afc;
+    color: -webkit-linear-gradient(to right, #2948ff, #396afc);
+    color: linear-gradient(to right, #2948ff, #396afc);
+    border-bottom: 2px solid #396afc; }
+
+.navbar-item h4 {
+  font-weight: 600;
+  color: black; }
+
+/*
+ * -------
+ * OLD CSS
+ * -------
+ */
 .subtitle {
   padding-top: 10px; }
 

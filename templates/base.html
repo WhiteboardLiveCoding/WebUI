@@ -1,130 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>LiveWhiteBoardCoding</title>
+  <head>
+      <title>LiveWhiteBoardCoding</title>
 
-    <!-- CSS HERE -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="../static/themes/monokai.css" rel="stylesheet">
-    <link href="../static/style.css" rel="stylesheet">
-    <link href="../static/codemirror.css" rel="stylesheet">
+      <!-- CSS HERE -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link href="../static/themes/monokai.css" rel="stylesheet">
+      <link href="../static/style.css" rel="stylesheet">
+      <link href="../static/codemirror.css" rel="stylesheet">
 
-    <!-- SCRIPTS HERE -->
-    <script src="../static/js/codemirror/codemirror.js"></script>
-    <script src="../static/js/codemirror/python.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@1.5.4/src/loadingoverlay.min.js"></script>
-</head>
-
+      <!-- SCRIPTS HERE -->
+      <script src="../static/js/codemirror/codemirror.js"></script>
+      <script src="../static/js/codemirror/python.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@1.5.4/src/loadingoverlay.min.js"></script>
+  </head>
   <body>
 
-    <section class="hero is-warning">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title">
-            Whiteboard Live Coding
-          </h1>
-          <h2 class="subtitle">
-            Making dem dreams come true since 2017
-          </h2>
-        </div>
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <span class="navbar-item">
+          <h4>LiveWhiteBoardCoding</h4>
+        </span>
       </div>
-    </section>
+    </nav>
+    <nav class="card">
+      <footer class="card-footer">
+        <a class="card-footer-item active" id="switch-webcam">
+          <i class="fa fa-video-camera" aria-hidden="true"></i> Submit image using webcamera
+        </a>
+        <a class="card-footer-item" id="switch-upload">
+          <i class="fa fa-upload" aria-hidden="true"></i> Upload image from your computer
+        </a>
+      </footer>
+    </nav>
 
-    <div class="container" id="submission-window">
+    <div id="app">
+      <div class="container" id="submission-window">
 
-      <div class="columns">
-        <div class="content">
-          <h1>Take a picture with your webcamera</h1>
-          <label for="videoSource">Source: </label><select id="videoSource"></select>
-        </div>
-      </div>
-
-      <div class="columns">
-        <div class="column text-center">
-          <video muted autoplay></video>
-          <input class="button is-danger" id="capture-webcam" type="submit" value="1. Capture image">
-        </div>
-        <div class="column text-center">
-          <img src="http://i316.photobucket.com/albums/mm347/baby-bits-n-bobs/Imagehere.jpg" id="img-webcam">
-          <input class="button is-danger" id="upload-webcam" type="submit" value="2. Upload">
-        </div>
-        <canvas width="640" height="480" style="display:none;" id="canvas"></canvas>
-      </div>
-
-      <hr>
-
-      <div class="columns">
-        <div class="content">
-          <h1>Or upload your picture</h1>
-        </div>
-      </div>
-
-      <div class="columns">
-        <div class="field">
-          <div class="file is-info has-name">
-            <label class="file-label">
-              <form method="post" enctype="multipart/form-data" id="file-form">
-                <input class="file-input" type=file name=file id="file-input">
-                <span class="file-cta">
-                  <span class="file-icon">
-                    <i class="fa fa-upload"></i>
-                  </span>
-                  <span class="file-label">
-                    Select file
-                  </span>
-                </span>
-                <label for="file" class="file-label">
-                <span class="file-name" id="filename">
-                  No file selected
-                </span>
-                </label>
-                <input class="button" type=submit value=Upload id="file-upload">
-              </form>
-            </label>
+        <div id="webcam-submission">
+          <div class="columns">
+            <div class="content">
+              <div class="column">
+                <select id="videoSource"></select>
+              </div>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column text-center">
+              <video muted autoplay></video>
+              <input class="button is-link" id="capture-webcam" type="submit" value="1. Capture image">
+            </div>
+            <div class="column text-center">
+              <img src="http://www.pixedelic.com/themes/geode/demo/wp-content/uploads/sites/4/2014/04/placeholder4.png" id="img-webcam">
+              <input class="button is-link" id="upload-webcam" type="submit" value="2. Upload">
+            </div>
+            <canvas width="640" height="480" style="display:none;" id="canvas"></canvas>
           </div>
         </div>
-      </div>
 
-    </div>
-
-    <div id="resubmit_window">
-
-      <div class="columns top-spaces">
-        <div class="column is-half">
-          <div class="editor">
-          </div>
-        </div>
-        <div class="column">
-          <canvas id="submitted_canvas">
-            Sorry, your browser doesn't support the &lt;canvas&gt; element.
-          </canvas>
-        </div>
-      </div>
-
-      <div class="columns">
-        <input class="button is-danger" id="upload-code" type="submit" value="Reupload code">
-      </div>
-
-      <div class="columns">
-        <div class="column">
-          <div class="field">
-            <div class="control">
-              <textarea class="textarea is-success" id="result-area" type="text" readonly>None</textarea>
+        <div id="upload-submission">
+          <div class="columns">
+            <div class="column content">
+              <div class="field">
+                <div class="file is-info has-name">
+                  <label class="file-label">
+                    <form method="post" enctype="multipart/form-data" id="file-form">
+                      <input class="file-input" type=file name=file id="file-input">
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fa fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                          Select file
+                        </span>
+                      </span>
+                      <label for="file" class="file-label">
+                      <span class="file-name" id="filename">
+                        No file selected
+                      </span>
+                      </label>
+                      <input class="button" type=submit value=Upload id="file-upload">
+                    </form>
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="column">
-          <div class="field">
-            <div class="control">
-              <textarea class="textarea is-danger" id="error-area" type="text" readonly>None</textarea>
+
+      </div>
+
+      <div id="resubmit_window">
+        <div class="columns top-spaces">
+          <div class="column is-half">
+            <div class="editor">
+            </div>
+          </div>
+          <div class="column">
+            <canvas id="submitted_canvas">
+              Sorry, your browser doesn't support the &lt;canvas&gt; element.
+            </canvas>
+          </div>
+        </div>
+
+        <div class="columns">
+          <input class="button is-danger" id="upload-code" type="submit" value="Reupload code">
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            <div class="field">
+              <div class="control">
+                <textarea class="textarea is-success" id="result-area" type="text" readonly>None</textarea>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <div class="control">
+                <textarea class="textarea is-danger" id="error-area" type="text" readonly>None</textarea>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
 
     <script type="text/javascript">
@@ -140,14 +142,15 @@
 
       // Does this when the page loads
       $(function() {
+        $('#upload-submission').hide();
         $('#resubmit_window').hide();
       });
     </script>
+    <script src="../static/js/ui.js" type="text/javascript"></script>
     <script src="../static/js/ar.js" type="text/javascript"></script>
     <script src="../static/js/upload.js" type="text/javascript"></script>
     <script src="../static/js/video.js" type="text/javascript"></script>
     <script src="../static/js/resubmit.js" type="text/javascript"></script>
     <script src="../static/js/voicerecognition.js" type="text/javascript"></script>
-
   </body>
 </html>
