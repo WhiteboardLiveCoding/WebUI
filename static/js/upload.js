@@ -22,6 +22,28 @@ function submit_image(fd) {
   $.LoadingOverlay("show");
 }
 
+$("#create-template").click(function (event) {
+  var templateBlob = document.getElementById('template-input').files[0];
+  var testBlob = document.getElementById('test-input').files[0];
+  var fd = new FormData();
+  fd.append("templateFile", templateBlob);
+  fd.append("testFile", testBlob);
+
+  $.LoadingOverlay("show");
+  $.ajax({
+    url: '/template',
+    data: fd,
+    processData: false,
+    contentType: false,
+    type: 'POST',
+    success: function (response) {
+        console.log(response);
+        $.LoadingOverlay("hide");
+    }
+  });
+  event.preventDefault();
+});
+
 function dataURItoBlob(dataURI) {
   // convert base64/URLEncoded data component to raw binary data held in a string
   var byteString;
