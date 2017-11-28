@@ -1,10 +1,3 @@
-var file = document.getElementById("file-input");
-file.onchange = function () {
-  if (file.files.length > 0) {
-    document.getElementById('filename').innerHTML = file.files[0].name;
-  }
-};
-
 $("#file-form").submit(function (event) {
   var blob = document.getElementById('file-input').files[0];
   var fd = new FormData();
@@ -79,6 +72,7 @@ function render_code(response) {
 
   // Show codemirror and other elements
   $('#resubmit_window').show();
+  $('.card').hide();
 
   // Drawing stuff
   var canvas = document.getElementById("submitted_canvas");
