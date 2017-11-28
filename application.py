@@ -8,6 +8,7 @@ app.debug = not os.environ.get('DEPLOYED')
 app.config['BACKEND_URL'] = 'http://whiteboardlivecoding-ocr.azurewebsites.net'
 app.config['IMAGE_PROCESSOR'] = app.config['BACKEND_URL'] + '/api/upload_image'
 app.config['CODE_RESUBMISSION'] = app.config['BACKEND_URL'] + '/api/resubmit_code'
+app.config['TEMPLATE'] = app.config['BACKEND_URL'] + '/api/template'
 sslify = SSLify(app)
 
 
@@ -49,6 +50,37 @@ def resubmit():
 
         r = r.json()
         return json.dumps({'result': r.get('result'), 'errors': r.get('errors'), 'ar': r.get('ar'), 'key': r.get('key')})
+
+
+@app.route('/template', methods=['POST'])
+def template():
+    if request.method == 'POST':
+        template_file = request.files.get('templateFile')
+        test_file = request.files.get('testFile')
+
+        if (not template_file or not template_file.filename) and (not test_file or not test_file.filename):
+            # TODO: show there's an error on the page
+            return json.dumps({
+                'id': "",
+                'error': True
+            })
+
+        else:
+            r = requests.post(app.config['TEMPLATE'],
+                              files={'templateFile': template_file.read(),
+                                     'testFile': test_file.read()})
+
+            if r.status_code != requests.codes.ok or r.status_code == 404:
+                # TODO: Handle error in a better way than just rendering the index
+                return json.dumps({
+                    'id': "",
+                    'error': True
+                })
+
+            res = r.json()
+
+            return json.dumps({'id': res.get('id', ""),
+                               'error': False})
 
 
 if __name__ == "__main__":
