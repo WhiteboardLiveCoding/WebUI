@@ -72,7 +72,8 @@ function render_code(response) {
 
   // Show codemirror and other elements
   $('#resubmit_window').show();
-  $('.card').hide();
+  $('nav.card').hide();
+  $('#back-submit').show();
 
   // Drawing stuff
   var canvas = document.getElementById("submitted_canvas");

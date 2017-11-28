@@ -9,6 +9,15 @@ file.onchange = function ( event) {
   }
 };
 
+$('#back-submit').click(function() {
+  $('#back-submit').hide();
+  $('#upload-submission').hide();
+  $('#resubmit_window').hide();
+  $('nav.card').show();
+  $('#upload-webcam').prop("disabled", false);
+  $('#submission-window').show();
+})
+
 // Switching landing page upload types
 
 $('#switch-webcam').click(function() {

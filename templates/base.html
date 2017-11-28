@@ -25,6 +25,11 @@
           <h4>LiveWhiteBoardCoding</h4>
         </span>
       </div>
+      <div class="navbar-end">
+        <a class="navbar-item disabled" id="back-submit">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true" style="padding-right:10px; color:black"></i> Back
+        </a>
+      </div>
     </nav>
     <nav class="card">
       <footer class="card-footer">
@@ -103,11 +108,10 @@
 
       </div>
 
-      <div id="resubmit_window">
-
-        <div class="columns top-spaces">
+      <div id="resubmit_window" class="container">
+        <div class="columns">
           <div class="column is-half">
-            <div class="editor">
+            <div class="card editor">
             </div>
           </div>
           <div class="column">
@@ -118,18 +122,31 @@
         </div>
 
         <div class="columns">
-          <input class="button is-danger" id="upload-code" type="submit" value="Reupload code">
+          <div class="column has-text-centered">
+            <input class="button is-link" id="upload-code" type="submit" value="Reupload code">
+          </div>
         </div>
 
-        <div class="columns">
-          <div class="column">
+        <div class="container columns">
+          <div class="card column is-half">
+            <header>
+              <p class="card-header-title">
+                Execution result
+              </p>
+            </header>
             <div class="field">
               <div class="control">
                 <textarea class="textarea is-success" id="result-area" type="text" readonly>None</textarea>
               </div>
             </div>
           </div>
-          <div class="column">
+          <div class="column is-one-fifth"></div>
+          <div class="card column is-half">
+            <header>
+              <p class="card-header-title">
+                Error log
+              </p>
+            </header>
             <div class="field">
               <div class="control">
                 <textarea class="textarea is-danger" id="error-area" type="text" readonly>None</textarea>
@@ -137,7 +154,6 @@
             </div>
           </div>
         </div>
-
       </div>
 
     </div>
@@ -147,13 +163,13 @@
       var cm = CodeMirror($container, {
         value: "",
         lineNumbers: true,
-        theme: "monokai",
         mode: "python"
       });
 
       cm.setSize('100%', 480);
       // Does this when the page loads
       $(function() {
+        $('#back-submit').hide();
         $('#upload-submission').hide();
         $('#resubmit_window').hide();
       });

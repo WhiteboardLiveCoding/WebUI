@@ -1,4 +1,4 @@
-.card-footer {
+nav > .card-footer {
   border-top: none;
 
   i {
@@ -24,6 +24,10 @@
 
 #upload-output {
   max-height: 500px;
+}
+
+#resubmit_window {
+  padding-bottom: 30px;
 }
 
 // For header
@@ -65,10 +69,6 @@
     width: 100%;
     height: 100%;
   }
-}
-
-.top-spaces {
-  margin-top: 20px;
 }
 
 #submitted_canvas {
