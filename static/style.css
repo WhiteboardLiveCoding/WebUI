@@ -1,3 +1,33 @@
+nav > .card-footer {
+  border-top: none; }
+  nav > .card-footer i {
+    padding-right: 10px; }
+  nav > .card-footer a {
+    color: #4f4f4f;
+    border-bottom: 2px solid #4f4f4f; }
+  nav > .card-footer a:hover {
+    border-bottom: 2px solid #396afc; }
+  nav > .card-footer .active {
+    color: #396afc;
+    color: -webkit-linear-gradient(to right, #2948ff, #396afc);
+    color: linear-gradient(to right, #2948ff, #396afc);
+    border-bottom: 2px solid #396afc; }
+
+#upload-output {
+  max-height: 500px; }
+
+#resubmit_window {
+  padding-bottom: 30px; }
+
+.navbar-item h4 {
+  font-weight: 600;
+  color: black; }
+
+/*
+ * -------
+ * OLD CSS
+ * -------
+ */
 .subtitle {
   padding-top: 10px; }
 
@@ -16,9 +46,6 @@
 .display-image img {
   width: 100%;
   height: 100%; }
-
-.top-spaces {
-  margin-top: 20px; }
 
 #submitted_canvas {
   max-width: 640px;
