@@ -40,7 +40,7 @@ def index():
 @app.route('/resubmit', methods=['POST'])
 def resubmit():
     if request.method == 'POST':
-        r = requests.post(app.config['CODE_RESUBMISSION'],
+        r = requests.post('{}?language={}'.format(app.config['CODE_RESUBMISSION'], request.args.get('language')),
                           json={'code': request.json.get('code'), 'key': request.json.get('key')})
 
         if r.status_code != requests.codes.ok or r.status_code == 404:
