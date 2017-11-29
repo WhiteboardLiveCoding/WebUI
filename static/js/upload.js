@@ -55,13 +55,24 @@ $("#upload-webcam").bind("click", function () {
   $.LoadingOverlay("show");
 });
 
+function populate_error_area(json) {
+  var errorArea = $('#error-area');
+  errorArea.empty()
+
+  $.each(json.errors, function(k, v) {
+    errorArea.append(v['type'] + ' (' + v['symbol'] + ') at line ' + v['line'] + ' column ' + v['column'] + '\n');
+  });
+}
+
 function render_code(response) {
   $('#submission-window').hide();
 
   // Fill correct elements with response
   var json = $.parseJSON(response);
   $('#result-area').val(json.result);
-  $('#error-area').val(json.error);
+
+  populate_error_area(json);
+
   cm.setValue(json.fixed);
 
   setTimeout(function() {

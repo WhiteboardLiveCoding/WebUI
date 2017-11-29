@@ -10,7 +10,7 @@ var resubmitCode = function resubmit() {
     success: function (response) {
       var json = $.parseJSON(response);
       $('#result-area').val(json.result);
-      $('#error-area').val(json.error);
+      populate_error_area(json);
 
       // Drawing stuff
       var canvas = document.getElementById("submitted_canvas");

@@ -11,17 +11,21 @@ function drawbackground(canvas, context, onload, json) {
 }
 
 function drawRest(canvas, context, json) {
-  drawLine(canvas, context, json.ar.line);
+  $.each(json.ar.errors, function(k, v) {
+    drawLine(canvas, context, v.line['x'], v.line['y'], v.line['width'], v.line['height'], "yellow");
+  });
+
+  $.each(json.ar.errors, function(k, v) {
+    drawLine(canvas, context, v.character['x'], v.line['y'], v.character['width'], v.line['height'], "red");
+  });
 }
 
-function drawLine(canvas, context, line) {
-  if (line) {
-    context.beginPath();
-    context.moveTo(line['x'], line['y'] + line['height']);
-    context.lineTo(line['x'] + line['width'], line['y'] + line['height']);
+function drawLine(canvas, context, x, y, w, h, color) {
+  context.beginPath();
+  context.moveTo(x, y + h);
+  context.lineTo(x + w, y + h);
 
-    context.lineWidth = 5;
-    context.strokeStyle = "red";
-    context.stroke();
-  }
+  context.lineWidth = 5;
+  context.strokeStyle = color;
+  context.stroke();
 }
