@@ -82,6 +82,9 @@ function render_code(response) {
   $('nav.card').hide();
   $('#back-submit').show();
 
+  set_proj_orig_bbox(json.ar);
+  setup_proj_mode();
+
   // Drawing stuff
   var canvas = document.getElementById("submitted_canvas");
   var context = canvas.getContext("2d");
