@@ -12,6 +12,8 @@ var resubmitCode = function resubmit() {
       $('#result-area').val(json.result);
       populate_error_area(json);
 
+      set_proj_orig_bbox(json.ar);
+
       // Drawing stuff
       var canvas = document.getElementById("submitted_canvas");
       var context = canvas.getContext("2d");

@@ -18,6 +18,8 @@ function drawRest(canvas, context, json) {
   $.each(json.ar.errors, function(k, v) {
     drawLine(canvas, context, v.character['x'], v.line['y'], v.character['width'], v.line['height'], "red");
   });
+
+  show_proj_orig_bbox(canvas, context);
 }
 
 function drawLine(canvas, context, x, y, w, h, color) {
@@ -28,4 +30,11 @@ function drawLine(canvas, context, x, y, w, h, color) {
   context.lineWidth = 5;
   context.strokeStyle = color;
   context.stroke();
+}
+
+function drawPoint(canvas, context, x, y, size, color) {
+  context.fillStyle = color;
+  context.beginPath();
+  context.arc(x, y, size, 0, 2 * Math.PI);
+  context.fill();
 }
