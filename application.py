@@ -19,7 +19,7 @@ def index():
             # TODO: show there's an error on the page
             return render_template('base.html')
         else:
-            r = requests.post(app.config['IMAGE_PROCESSOR'],
+            r = requests.post('{}?language={}'.format(app.config['IMAGE_PROCESSOR'], request.args.get('language')),
                               files={'file': file.read()})
 
             if r.status_code != requests.codes.ok or r.status_code == 404:

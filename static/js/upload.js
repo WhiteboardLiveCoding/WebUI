@@ -2,8 +2,15 @@ $("#file-form").submit(function (event) {
   var blob = document.getElementById('file-input').files[0];
   var fd = new FormData();
   fd.append("file", blob);
+  submit_image(fd);
+  event.preventDefault();
+});
+
+function submit_image(df) {
+  var e = document.getElementById("language");
+  var language = e.options[e.selectedIndex].value;
   $.ajax({
-    url: '/',
+    url: '/?language=' + language,
     data: fd,
     processData: false,
     contentType: false,
@@ -13,8 +20,7 @@ $("#file-form").submit(function (event) {
     }
   });
   $.LoadingOverlay("show");
-  event.preventDefault();
-});
+}
 
 function dataURItoBlob(dataURI) {
   // convert base64/URLEncoded data component to raw binary data held in a string
@@ -42,17 +48,7 @@ $("#upload-webcam").bind("click", function () {
   var blob = dataURItoBlob(dataURL);
   var fd = new FormData();
   fd.append("file", blob);
-  $.ajax({
-    url: '/',
-    data: fd,
-    processData: false,
-    contentType: false,
-    type: 'POST',
-    success: function (response) {
-      render_code(response);
-    }
-  });
-  $.LoadingOverlay("show");
+  submit_image(fd);
 });
 
 function populate_error_area(json) {
