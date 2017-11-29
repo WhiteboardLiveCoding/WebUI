@@ -1,8 +1,10 @@
 // Code for the resubmission button
 
 var resubmitCode = function resubmit() {
+  var e = document.getElementById("language");
+  var language = e.options[e.selectedIndex].value;
   $.ajax({
-    url: '/resubmit',
+    url: '/resubmit?language=' + language,
     data: JSON.stringify({"code": cm.getValue(), "key": localStorage.getItem("key")}),
     processData: false,
     contentType: 'application/json',

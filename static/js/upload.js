@@ -6,7 +6,7 @@ $("#file-form").submit(function (event) {
   event.preventDefault();
 });
 
-function submit_image(df) {
+function submit_image(fd) {
   var e = document.getElementById("language");
   var language = e.options[e.selectedIndex].value;
   $.ajax({
@@ -53,10 +53,10 @@ $("#upload-webcam").bind("click", function () {
 
 function populate_error_area(json) {
   var errorArea = $('#error-area');
-  errorArea.empty()
+  errorArea.empty();
 
   $.each(json.errors, function(k, v) {
-    errorArea.append(v['type'] + ' (' + v['symbol'] + ') at line ' + v['line'] + ' column ' + v['column'] + '\n');
+    errorArea.append('(Line: ' +  v['line'] + ', Column: ' + v['column'] + ') ' + v['type'] + ': ' + v['message'] +  '\n');
   });
 }
 
