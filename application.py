@@ -62,7 +62,8 @@ def template():
             # TODO: show there's an error on the page
             return json.dumps({
                 'id': "",
-                'error': True
+                'error': "Files missing",
+                'success': False
             })
 
         else:
@@ -71,16 +72,13 @@ def template():
                                      'testFile': test_file.read()})
 
             if r.status_code != requests.codes.ok or r.status_code == 404:
-                # TODO: Handle error in a better way than just rendering the index
                 return json.dumps({
                     'id': "",
-                    'error': True
+                    'error': "Template creation failed",
+                    'success': False
                 })
 
-            res = r.json()
-
-            return json.dumps({'id': res.get('id', ""),
-                               'error': False})
+            return json.dumps(r.json())
 
 
 if __name__ == "__main__":

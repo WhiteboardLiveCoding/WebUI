@@ -9,8 +9,16 @@ $("#file-form").submit(function (event) {
 function submit_image(fd) {
   var e = document.getElementById("language");
   var language = e.options[e.selectedIndex].value;
+  var template = $("#template-id").val();
+
+  var url = '/?language=' + language;
+
+  if (template.length > 0) {
+    url = url + '&template=' + template;
+  }
+
   $.ajax({
-    url: '/?language=' + language,
+    url: url,
     data: fd,
     processData: false,
     contentType: false,
@@ -37,7 +45,12 @@ $("#create-template").click(function (event) {
     contentType: false,
     type: 'POST',
     success: function (response) {
-        console.log(response);
+        var resp = $.parseJSON(response);
+        if (resp.success) {
+            $("#template-id").val(resp.id);
+        } else {
+            console.log(response);
+        }
         $.LoadingOverlay("hide");
     }
   });
