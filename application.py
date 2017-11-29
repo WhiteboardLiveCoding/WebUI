@@ -29,7 +29,7 @@ def index():
             res = r.json()
 
             return json.dumps({'result': res.get('result',""),
-                               'error': res.get('error',""),
+                               'errors': res.get('errors',""),
                                'fixed': res.get('fixed',""),
                                'key': res.get('key',""),
                                'ar': res.get('ar',"")})
@@ -48,7 +48,7 @@ def resubmit():
             return render_template('base.html')
 
         r = r.json()
-        return json.dumps({'result': r.get('result'), 'error': r.get('error'), 'ar': r.get('ar'), 'key': r.get('key')})
+        return json.dumps({'result': r.get('result'), 'errors': r.get('errors'), 'ar': r.get('ar'), 'key': r.get('key')})
 
 
 if __name__ == "__main__":
