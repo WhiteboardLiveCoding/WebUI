@@ -4,15 +4,19 @@ machine:
   services:
     - docker
 
+dependencies:
+  pre:
+    - docker build --rm=false -t mz4315/whiteboardlivecoding .
+
 test:
   override:
-    - echo "empty"
+    - docker run -d -p 80:80 mz4315/whiteboardlivecoding; sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80
 
 deployment:
   hub:
     branch: master
     commands:
       - docker info
-      - docker build --rm=false -t mz4315/whiteboardlivecoding .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push mz4315/whiteboardlivecoding
