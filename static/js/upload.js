@@ -87,6 +87,7 @@ function render_code(response) {
   $('#back-submit').show();
 
   set_proj_orig_bbox(json.ar);
+  setup_proj_mode();
 
   // Drawing stuff
   var canvas = document.getElementById("submitted_canvas");
