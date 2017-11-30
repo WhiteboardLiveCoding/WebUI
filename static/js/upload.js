@@ -95,29 +95,35 @@ function populate_error_area(json) {
   });
 }
 
+function populate_result_area(json) {
+  var resultArea = $('#result-area');
+
+  resultArea.empty();
+
+  resultArea.append('STDOUT\n' + json.result + '\n\n');
+
+  if (json.testResults.length > 0) {
+    resultArea.append('TESTS\n');
+  }
+
+  $.each(json.testResults, function(k, v) {
+    var testCounter = parseInt(k) + 1;
+
+    if(v.passed) {
+        resultArea.append('\tTest ' + testCounter + ': Passed\n');
+    } else {
+        resultArea.append('\tTest ' + testCounter + ': Failed (Hint: ' + v.hint + ')\n');
+    }
+  });
+}
+
 function render_code(response) {
   $('#submission-window').hide();
 
   // Fill correct elements with response
   var json = $.parseJSON(response);
-  var resultValue = 'STDOUT\n' + json.result + '\n\n';
 
-  if (json.testResults.length > 0) {
-    var testResults = [];
-    for(var i in json.testResults) {
-        var testCounter = parseInt(i) + 1;
-        if(json.testResults[i].passed) {
-            testResults.push('\tTest ' + testCounter + ': Passed\n');
-        } else {
-            testResults.push('\tTest ' + testCounter + ': Failed (Hint: ' + json.testResults[i].hint + ')\n');
-        }
-    }
-
-    resultValue = resultValue + 'Tests:\n' + testResults.join('') + '\n\n';
-  }
-
-  $('#result-area').val(resultValue);
-
+  populate_result_area(json);
   populate_error_area(json);
 
   cm.setValue(json.fixed);
