@@ -20,8 +20,12 @@ def index():
             # TODO: show there's an error on the page
             return render_template('base.html')
         else:
-            r = requests.post('{}?language={}'.format(app.config['IMAGE_PROCESSOR'], request.args.get('language')),
-                              files={'file': file.read()})
+            url = '{}?language={}'.format(app.config['IMAGE_PROCESSOR'], request.args.get('language'))
+
+            if 'template' in request.args:
+                url = '{}&template={}'.format(url, request.args.get('template'))
+
+            r = requests.post(url, files={'file': file.read()})
 
             if r.status_code != requests.codes.ok or r.status_code == 404:
                 # TODO: Handle error in a better way than just rendering the index
@@ -33,6 +37,7 @@ def index():
                                'errors': res.get('errors',""),
                                'fixed': res.get('fixed',""),
                                'key': res.get('key',""),
+                               'testResults': res.get('testResults', []),
                                'ar': res.get('ar',"")})
     else:
         return render_template('base.html')
@@ -41,15 +46,23 @@ def index():
 @app.route('/resubmit', methods=['POST'])
 def resubmit():
     if request.method == 'POST':
-        r = requests.post('{}?language={}'.format(app.config['CODE_RESUBMISSION'], request.args.get('language')),
-                          json={'code': request.json.get('code'), 'key': request.json.get('key')})
+        url = '{}?language={}'.format(app.config['CODE_RESUBMISSION'], request.args.get('language'))
+
+        if 'template' in request.args:
+            url = '{}&template={}'.format(url, request.args.get('template'))
+
+        r = requests.post(url, json={'code': request.json.get('code'), 'key': request.json.get('key')})
 
         if r.status_code != requests.codes.ok or r.status_code == 404:
             # TODO: Handle error in a better way than just rendering the index
             return render_template('base.html')
 
         r = r.json()
-        return json.dumps({'result': r.get('result'), 'errors': r.get('errors'), 'ar': r.get('ar'), 'key': r.get('key')})
+        return json.dumps({'result': r.get('result'),
+                           'errors': r.get('errors'),
+                           'ar': r.get('ar'),
+                           'testResults': r.get('testResults', []),
+                           'key': r.get('key')})
 
 
 @app.route('/template', methods=['POST'])

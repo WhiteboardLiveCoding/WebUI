@@ -100,7 +100,23 @@ function render_code(response) {
 
   // Fill correct elements with response
   var json = $.parseJSON(response);
-  $('#result-area').val(json.result);
+  var resultValue = 'STDOUT\n' + json.result + '\n\n';
+
+  if (json.testResults.length > 0) {
+    var testResults = [];
+    for(var i in json.testResults) {
+        var testCounter = parseInt(i) + 1;
+        if(json.testResults[i].passed) {
+            testResults.push('\tTest ' + testCounter + ': Passed\n');
+        } else {
+            testResults.push('\tTest ' + testCounter + ': Failed (Hint: ' + json.testResults[i].hint + ')\n');
+        }
+    }
+
+    resultValue = resultValue + 'Tests:\n' + testResults.join('') + '\n\n';
+  }
+
+  $('#result-area').val(resultValue);
 
   populate_error_area(json);
 
