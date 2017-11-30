@@ -39,6 +39,12 @@
         <a class="navbar-item disabled" id="back-submit">
           <i class="fa fa-chevron-circle-left" aria-hidden="true" style="padding-right:10px; color:black"></i> Back
         </a>
+        <a class="navbar-item" id="add-template">
+          <span class="icon" id="template-span">
+            <i class="fa fa-file-code-o" aria-hidden="true" style="padding-right:10px;"></i>
+          </span>
+          <p id="template-text">Template</p>
+        </a>
       </div>
     </nav>
     <nav class="card">
@@ -168,8 +174,82 @@
             </div>
           </div>
         </div>
-      </div>
+    </div>
 
+    <div class="modal" id="template-modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Template</p>
+          <button class="delete" aria-label="close" id="template-modal-close"></button>
+        </header>
+        <section class="modal-card-body">
+          <h3>Use a pre-created template</h3>
+          </br>
+          <div class="field is-horizontal">
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <input class="input" type="text" id="template-id" placeholder="Template ID">
+                </p>
+              </div>
+            </div>
+          </div>
+          </br>
+          <h3>OR Create a new one</h3>
+          </br>
+          <label class="file-label">
+            <form method="post" enctype="multipart/form-data" id="template-file-form">
+              Template File(.py)
+              </br>
+              </br>
+              <input class="file-input" type=file name=file id="template-input">
+              <span class="file-cta">
+                      <span class="file-icon">
+                        <i class="fa fa-upload"></i>
+                      </span>
+                      <span class="file-label">
+                        Select file
+                      </span>
+                    </span>
+              <label for="file" class="file-label">
+                      <span class="file-name" id="template-filename">
+                        No file selected
+                      </span>
+              </label>
+            </form>
+          </label>
+
+          </br>
+          </br>
+
+          <label class="file-label">
+            <form method="post" enctype="multipart/form-data" id="test-file-form">
+              Tests File(.json)
+              </br>
+              </br>
+              <input class="file-input" type=file name=file id="test-input">
+              <span class="file-cta">
+                      <span class="file-icon">
+                        <i class="fa fa-upload"></i>
+                      </span>
+                      <span class="file-label">
+                        Select file
+                      </span>
+                    </span>
+              <label for="file" class="file-label">
+                      <span class="file-name" id="test-filename">
+                        No file selected
+                      </span>
+              </label>
+            </form>
+          </label>
+        </section>
+        <footer class="modal-card-foot">
+          <input class="button is-link" id="create-template" type="submit" value="Create">
+          <input class="button" id="cancel-template" type="submit" value="Cancel">
+        </footer>
+      </div>
     </div>
 
     <script type="text/javascript">

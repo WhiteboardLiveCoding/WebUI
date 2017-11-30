@@ -9,8 +9,16 @@ $("#file-form").submit(function (event) {
 function submit_image(fd) {
   var e = document.getElementById("language");
   var language = e.options[e.selectedIndex].value;
+  var template = $("#template-id").val();
+
+  var url = '/?language=' + language;
+
+  if (template.length > 0) {
+    url = url + '&template=' + template;
+  }
+
   $.ajax({
-    url: '/?language=' + language,
+    url: url,
     data: fd,
     processData: false,
     contentType: false,
@@ -21,6 +29,33 @@ function submit_image(fd) {
   });
   $.LoadingOverlay("show");
 }
+
+$("#create-template").click(function (event) {
+  var templateBlob = document.getElementById('template-input').files[0];
+  var testBlob = document.getElementById('test-input').files[0];
+  var fd = new FormData();
+  fd.append("templateFile", templateBlob);
+  fd.append("testFile", testBlob);
+
+  $.LoadingOverlay("show");
+  $.ajax({
+    url: '/template',
+    data: fd,
+    processData: false,
+    contentType: false,
+    type: 'POST',
+    success: function (response) {
+        var resp = $.parseJSON(response);
+        if (resp.success) {
+            $("#template-id").val(resp.id);
+        } else {
+            console.log(response);
+        }
+        $.LoadingOverlay("hide");
+    }
+  });
+  event.preventDefault();
+});
 
 function dataURItoBlob(dataURI) {
   // convert base64/URLEncoded data component to raw binary data held in a string
@@ -60,13 +95,35 @@ function populate_error_area(json) {
   });
 }
 
+function populate_result_area(json) {
+  var resultArea = $('#result-area');
+
+  resultArea.empty();
+
+  resultArea.append('STDOUT\n' + json.result + '\n\n');
+
+  if (json.testResults.length > 0) {
+    resultArea.append('TESTS\n');
+  }
+
+  $.each(json.testResults, function(k, v) {
+    var testCounter = parseInt(k) + 1;
+
+    if(v.passed) {
+        resultArea.append('\tTest ' + testCounter + ': Passed\n');
+    } else {
+        resultArea.append('\tTest ' + testCounter + ': Failed (Hint: ' + v.hint + ')\n');
+    }
+  });
+}
+
 function render_code(response) {
   $('#submission-window').hide();
 
   // Fill correct elements with response
   var json = $.parseJSON(response);
-  $('#result-area').val(json.result);
 
+  populate_result_area(json);
   populate_error_area(json);
 
   cm.setValue(json.fixed);
