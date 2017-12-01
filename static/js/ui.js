@@ -32,28 +32,27 @@ templateId.onchange = function (event) {
      $('#add-template').removeClass('has-text-danger');
      $('#template-text').text('Template');
    }
-}
+};
 
 $('#back-submit').click(function() {
   $('#back-submit').hide();
-  $('#upload-submission').hide();
   $('#resubmit_window').hide();
   $('nav.card').show();
   $('#upload-webcam').prop("disabled", false);
   $('#submission-window').show();
-})
+});
 
 $('#add-template').click(function() {
   $('#template-modal').addClass('is-active');
-})
+});
 
 $('#template-modal-close').click(function() {
   $('#template-modal').removeClass('is-active');
-})
+});
 
 $('#cancel-template').click(function() {
   $('#template-modal').removeClass('is-active');
-})
+});
 // Switching landing page upload types
 
 $('#switch-webcam').click(function() {

@@ -5,7 +5,7 @@ from flask_sslify import SSLify
 
 app = Flask(__name__)
 app.debug = not os.environ.get('DEPLOYED')
-app.config['BACKEND_URL'] = 'http://127.0.0.1:3000'
+app.config['BACKEND_URL'] = 'http://whiteboardlivecoding-ocr.azurewebsites.net'
 app.config['IMAGE_PROCESSOR'] = app.config['BACKEND_URL'] + '/api/upload_image'
 app.config['CODE_RESUBMISSION'] = app.config['BACKEND_URL'] + '/api/resubmit_code'
 app.config['TEMPLATE'] = app.config['BACKEND_URL'] + '/api/template'

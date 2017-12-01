@@ -48,6 +48,8 @@ $("#create-template").click(function (event) {
         var resp = $.parseJSON(response);
         if (resp.success) {
             $("#template-id").val(resp.id);
+            var event = new Event('change');
+            document.getElementById("template-id").dispatchEvent(event);
         } else {
             console.log(response);
         }
