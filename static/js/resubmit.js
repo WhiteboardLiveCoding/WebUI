@@ -26,11 +26,12 @@ var resubmitCode = function resubmit() {
 
       set_proj_orig_bbox(json.ar);
 
+      $.LoadingOverlay("hide");
+
       // Drawing stuff
       var canvas = document.getElementById("submitted_canvas");
       var context = canvas.getContext("2d");
-      drawbackground(canvas, context, drawRest, json);
-      $.LoadingOverlay("hide");
+      drawbackground(canvas, context, drawRest, json, canvas.toDataURL('image/png', 0.5));
     }
   });
 };

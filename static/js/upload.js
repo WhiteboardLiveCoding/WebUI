@@ -2,11 +2,12 @@ $("#file-form").submit(function (event) {
   var blob = document.getElementById('file-input').files[0];
   var fd = new FormData();
   fd.append("file", blob);
-  submit_image(fd);
+  var data_url = $("#upload-output").attr('src');
+  submit_image(fd, data_url);
   event.preventDefault();
 });
 
-function submit_image(fd) {
+function submit_image(fd, data_url) {
   var e = document.getElementById("language");
   var language = e.options[e.selectedIndex].value;
   var template = $("#template-id").val();
@@ -16,7 +17,6 @@ function submit_image(fd) {
   if (template.length > 0) {
     url = url + '&template=' + template;
   }
-
   $.ajax({
     url: url,
     data: fd,
@@ -24,7 +24,7 @@ function submit_image(fd) {
     contentType: false,
     type: 'POST',
     success: function (response) {
-      render_code(response);
+      render_code(response, data_url);
     }
   });
   $.LoadingOverlay("show");
@@ -85,7 +85,7 @@ $("#upload-webcam").bind("click", function () {
   var blob = dataURItoBlob(dataURL);
   var fd = new FormData();
   fd.append("file", blob);
-  submit_image(fd);
+  submit_image(fd, dataURL);
 });
 
 function populate_error_area(json) {
@@ -119,7 +119,7 @@ function populate_result_area(json) {
   });
 }
 
-function render_code(response) {
+function render_code(response, data_url) {
   $('#submission-window').hide();
 
   // Fill correct elements with response
@@ -144,9 +144,10 @@ function render_code(response) {
   set_proj_orig_bbox(json.ar);
   setup_proj_mode();
 
+  $.LoadingOverlay("hide");
+
   // Drawing stuff
   var canvas = document.getElementById("submitted_canvas");
   var context = canvas.getContext("2d");
-  drawbackground(canvas, context, drawRest, json);
-  $.LoadingOverlay("hide");
+  drawbackground(canvas, context, drawRest, json, data_url);
 }
