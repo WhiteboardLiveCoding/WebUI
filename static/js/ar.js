@@ -1,4 +1,4 @@
-function drawbackground(canvas, context, onload, json) {
+function drawbackground(canvas, context, onload, json, data_url) {
   var imagePaper = new Image();
   imagePaper.onload = function () {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -7,7 +7,7 @@ function drawbackground(canvas, context, onload, json) {
     context.drawImage(imagePaper, 0, 0, canvas.width, canvas.height);
     onload(canvas, context, json.ar, false, null);
   };
-  imagePaper.src = "https://alpstore.blob.core.windows.net/pictures/" + json.key;
+  imagePaper.src = data_url;
 }
 
 function drawRest(canvas, context, json, scaled, scaling) {
